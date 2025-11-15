@@ -21,4 +21,4 @@ build/
 .env.local
 *.log
 .cache/
-README.md
+chroma_db/

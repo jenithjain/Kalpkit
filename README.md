@@ -45,32 +45,84 @@ ollama list
 
 ## 🚀 Setup Instructions
 
-### 1. Clone Repository
+### Method 1: Local Setup (Recommended for Development)
+
+#### Step 1: Clone Repository
 ```bash
-git clone https://github.com/yourusername/AmbedkarGPT-Intern-Task.git
-cd AmbedkarGPT-Intern-Task
+git clone https://github.com/jenithjain/Kalpkit.git
+cd Kalpkit
 ```
 
-### 2. Create Virtual Environment
+#### Step 2: Create Virtual Environment
 ```bash
 # Create virtual environment
-python -m venv ambedkar_env
+python -m venv venv
 
 # Activate virtual environment
 # On Windows:
-ambedkar_env\Scripts\activate
+venv\Scripts\activate
 # On macOS/Linux:
-source ambedkar_env/bin/activate
+source venv/bin/activate
 ```
 
-### 3. Install Dependencies
+#### Step 3: Install Dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Run the System
+#### Step 4: Start Ollama Server (in separate terminal)
 ```bash
+# Terminal 1: Start Ollama
+ollama serve
+```
+
+#### Step 5: Run the System (in another terminal)
+```bash
+# Terminal 2: Activate venv and run
+venv\Scripts\activate  # On Windows
 python main.py
+```
+
+---
+
+### Method 2: Docker Setup (Recommended for Deployment)
+
+#### Prerequisites
+- Docker Desktop installed and running
+
+#### Step 1: Clone Repository
+```bash
+git clone https://github.com/jenithjain/Kalpkit.git
+cd Kalpkit
+```
+
+#### Step 2: Build and Run with Docker Compose
+```bash
+# Build and start all services (Ollama + AmbedkarGPT)
+docker-compose up --build
+```
+
+This automatically:
+- ✅ Starts Ollama service
+- ✅ Pulls Mistral 7B Quantized model
+- ✅ Starts your AmbedkarGPT application
+- ✅ Connects them together
+
+#### Step 3: Stop Services
+```bash
+docker-compose down
+```
+
+---
+
+### Method 3: Docker Hub (Fastest)
+
+```bash
+# Pull pre-built image
+docker pull jenithjain/ambedkar-gpt:latest
+
+# Run the container
+docker run -it jenithjain/ambedkar-gpt:latest
 ```
 
 ## 💻 Usage
@@ -100,11 +152,15 @@ Type 'quit', 'exit', or 'q' to end the session.
 
 ```
 AmbedkarGPT-Intern-Task/
-├── main.py              # Main application code
-├── speech.txt           # Dr. Ambedkar's speech text
-├── requirements.txt     # Python dependencies
-├── README.md           # This file
-└── chroma_db/          # ChromaDB vector store (created on first run)
+├── main.py                  # Main application code (RAG pipeline)
+├── speech.txt               # Dr. Ambedkar's speech text
+├── requirements.txt         # Python dependencies
+├── README.md               # Complete setup and usage guide
+├── Dockerfile              # Docker container configuration
+├── docker-compose.yml      # Multi-container orchestration
+├── .gitignore             # Git exclusions
+├── .dockerignore          # Docker build exclusions
+└── chroma_db/             # ChromaDB vector store (created on first run)
 ```
 
 ## 🔧 System Architecture
@@ -153,6 +209,37 @@ AmbedkarGPT-Intern-Task/
 - First run takes longer due to model downloads and embedding creation
 - Subsequent runs are faster as ChromaDB persists the vector store
 - Embedding model (~90MB) downloads automatically on first use
+
+## 🐳 Docker Deployment
+
+### Building Docker Image
+```bash
+docker build -t jenithjain/ambedkar-gpt:latest .
+```
+
+### Pushing to Docker Hub
+```bash
+docker login
+docker push jenithjain/ambedkar-gpt:latest
+```
+
+### Running with Docker Compose
+```bash
+# Single command to run everything
+docker-compose up --build
+
+# View logs
+docker-compose logs -f
+
+# Stop services
+docker-compose down
+```
+
+### Environment Variables
+- `OLLAMA_NUM_GPU=0` - Forces CPU-only mode (set in docker-compose.yml)
+- `OLLAMA_HOST=http://ollama:11434` - Ollama service endpoint
+
+---
 
 ## 🎓 Assignment Requirements Fulfilled
 
