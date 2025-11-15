@@ -83,39 +83,7 @@ venv\Scripts\activate  # On Windows
 python main.py
 ```
 
----
-
-### Method 2: Docker Setup (Recommended for Deployment)
-
-#### Prerequisites
-- Docker Desktop installed and running
-
-#### Step 1: Clone Repository
-```bash
-git clone https://github.com/jenithjain/Kalpkit.git
-cd Kalpkit
-```
-
-#### Step 2: Build and Run with Docker Compose
-```bash
-# Build and start all services (Ollama + AmbedkarGPT)
-docker-compose up --build
-```
-
-This automatically:
-- ✅ Starts Ollama service
-- ✅ Pulls Mistral 7B Quantized model
-- ✅ Starts your AmbedkarGPT application
-- ✅ Connects them together
-
-#### Step 3: Stop Services
-```bash
-docker-compose down
-```
-
----
-
-### Method 3: Docker Hub (Fastest)
+###  Docker Hub Image
 
 ```bash
 # Pull pre-built image
