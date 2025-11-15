@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  # Ollama LLM Service
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ambedkar-ollama
+    ports:
+      - "11434:11434"
+    environment:
+      - OLLAMA_NUM_GPU=0  # CPU mode
+    volumes:
+      - ollama_data:/root/.ollama
+    command: serve
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11434/api/tags"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # AmbedkarGPT Application
+  ambedkar-gpt:
+    build: .
+    container_name: ambedkar-gpt-app
+    depends_on:
+      ollama:
+        condition: service_healthy
+    environment:
+      - OLLAMA_HOST=http://ollama:11434
+    volumes:
+      - ./chroma_db:/app/chroma_db
+    networks:
+      - ambedkar-network
+    stdin_open: true
+    tty: true
+
+volumes:
+  ollama_data:
+    driver: local
+
+networks:
+  ambedkar-network:
+    driver: bridge
