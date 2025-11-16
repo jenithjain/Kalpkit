@@ -1,6 +1,12 @@
 # AmbedkarGPT - Q&A System
 
 A command-line Q&A system that answers questions based on Dr. B.R. Ambedkar's speech content using RAG (Retrieval-Augmented Generation) pipeline.
+# Demo Video 
+
+
+https://github.com/user-attachments/assets/a05ccb90-e13b-4fa3-83ab-28ece71410b8
+
+
 
 ## 🎯 Project Overview
 
